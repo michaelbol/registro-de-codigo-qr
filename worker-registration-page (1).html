@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Trabajadores</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label, input, button {
+            margin-bottom: 10px;
+        }
+        button {
+            cursor: pointer;
+        }
+        #qrCode {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registro de Trabajadores</h1>
+    <form id="workerForm">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" required>
+        
+        <label for="id">ID:</label>
+        <input type="text" id="id" required>
+        
+        <button type="submit">Registrar y Generar QR</button>
+    </form>
+
+    <div id="qrCode"></div>
+
+    <script>
+        document.getElementById('workerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const id = document.getElementById('id').value;
+            
+            // Aquí iría la lógica para guardar en la base de datos
+            
+            // Generamos el código QR
+            const qrData = `Nombre: ${name}, ID: ${id}`;
+            const qr = qrcode(0, 'M');
+            qr.addData(qrData);
+            qr.make();
+
+            // Mostramos el código QR
+            const qrCodeDiv = document.getElementById('qrCode');
+            qrCodeDiv.innerHTML = `
+                <h3>Código QR del Trabajador</h3>
+                ${qr.createImgTag(4)}
+                <p>${qrData}</p>
+            `;
+            
+            // Limpiamos el formulario
+            this.reset();
+        });
+    </script>
+</body>
+</html>
